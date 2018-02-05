@@ -1,0 +1,24 @@
+#!/usr/bin/env node
+
+var program = require('commander')
+var request = require('request')
+var Newsletter = require('./newsletter')
+
+program
+  .version('0.0.1')
+  .option('--key [value]', 'Discourse API Key')
+  .option('--link [value]', 'Link to newsletter')
+  .option('--date [value]', 'Date of newsletter')
+  .parse(process.argv)
+
+new Newsletter().from_link(program.link).then(self => {
+  data = {
+    api_key: program.key,
+    api_username: 'tldr',
+    title: self.title,
+    raw: self.markdown,
+    category: 253
+  }
+  if (program.date) data.created_at = program.date
+  request.post('https://discourse.mozilla.org/posts').form(data)
+})
