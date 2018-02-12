@@ -28,7 +28,7 @@ exports.handler = (event, context, callback) => {
           raw: self.markdown,
           category: process.env.DISCOURSE_TLDR_CATEGORY
         }
-        request.post(${process.env.DISCOURSE_TLDR_URL} + '/posts', { form: data }, (err, res, body) => {
+        request.post(process.env.DISCOURSE_TLDR_URL + '/posts', { form: data }, (err, res, body) => {
           if (res.statusCode != 200) {
             console.log('Posting to Discourse failed: ' + body)
             callback(body)
