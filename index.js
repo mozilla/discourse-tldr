@@ -32,14 +32,14 @@ exports.handler = (event, context, callback) => {
           if (res.statusCode != 200) {
             console.log('Posting to Discourse failed: ' + body)
             callback(body)
+          } else {
+            callback(null, 'Posted to Discourse')
           }
         })
       }).catch(err => {
         console.log(err)
         callback(err)
       })
-
-      callback(null, null)
     }
   })
 }
