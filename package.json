@@ -1,0 +1,26 @@
+{
+  "name": "discourse-tldr",
+  "version": "0.0.1",
+  "description": "Scripts to fetch the tl;dr newsletter and post it to Discourse.",
+  "main": "post_newsletter",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/mozilla/discourse-tldr.git"
+  },
+  "author": "Leo McArdle",
+  "license": "MPL-2.0",
+  "bugs": {
+    "url": "https://github.com/mozilla/discourse-tldr/issues"
+  },
+  "homepage": "https://github.com/mozilla/discourse-tldr#readme",
+  "dependencies": {
+    "cheerio": "^1.0.0-rc.2",
+    "commander": "^2.14.1",
+    "mailparser": "^2.2.0",
+    "request": "^2.83.0",
+    "turndown": "^4.0.1"
+  }
+}

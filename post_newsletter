@@ -29,9 +29,15 @@ new Newsletter().from_link(program.link).then(self => {
     fs.readFile(program.input, 'utf8', (err, file) => {
       if (err) throw err
       data.raw = file
-      request.post('https://discourse.mozilla.org/posts').form(data)
+      post_to_discourse(data)
     })
   } else {
-    request.post('https://discourse.mozilla.org/posts').form(data)
+    post_to_discourse(data)
   }
 })
+
+function post_to_discourse (data) {
+  request.post('https://discourse.mozilla.org/posts', { form: data }, (err, res, body) => {
+    if (res.statusCode != 200) throw body
+  })
+}

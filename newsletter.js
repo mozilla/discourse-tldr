@@ -1,4 +1,3 @@
-var fs = require('fs')
 var mailparser = require('mailparser').simpleParser
 var request = require('request')
 var cheerio = require('cheerio')
@@ -13,6 +12,8 @@ module.exports = class Newsletter {
   from_link (link, date) {
     return new Promise((resolve, reject) => {
       request(link, (err, res, body) => {
+        if (err) reject(err)
+
         var $ = cheerio.load(body)
         this.title = $('title').text()
 
@@ -31,20 +32,12 @@ module.exports = class Newsletter {
   from_mail (data, date) {
     return new Promise((resolve, reject) => {
       mailparser(data, (err, mail) => {
+        if (err) reject(err)
+
         var $ = cheerio.load(mail.html)
         var link = $('a[href^="http://mailchi.mp/"]').attr('href').replace(/\?e\=.*/, '')
 
         this.from_link(link).then((title, markdown) => {
-          resolve(this)
-        })
-      })
-    })
-  }
-
-  from_file (file, date) {
-    return new Promise((resolve, reject) => {
-      fs.readFile(__dirname + file, (err, data) => {
-        this.from_mail(data).then((title, markdown) => {
           resolve(this)
         })
       })

@@ -1,3 +1,6 @@
 node_modules
 *.eml
 *.md
+!README.md
+*.zip
+zip/
