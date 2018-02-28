@@ -9,22 +9,19 @@ exports.handler = (event, context, callback) => {
   var sesNotification = event.Records[0].ses
   console.log('SES Notification:\n', JSON.stringify(sesNotification, null, 2))
 
-  if (sesNotification.receipt.spfVerdict.status === 'FAIL'
-      || sesNotification.receipt.dkimVerdict.status === 'FAIL'
-      || sesNotification.receipt.spamVerdict.status === 'FAIL'
-      || sesNotification.receipt.virusVerdict.status === 'FAIL') {
+  if (sesNotification.receipt.virusVerdict.status === 'FAIL') {
     console.log('Dropping spam')
-    callback(null, {'disposition':'STOP_RULE_SET'})
-  }
-
-  for (var index in sesNotification.mail.headers) {
-    var header = sesNotification.mail.headers[index]
-    if (header.name === 'From') {
-      if (/\@mozilla\.com>?\s*$/.test(header.value)) {
-        processMail(sesNotification, callback)
-      } else {
-        console.log('Email not from @mozilla.com address')
-        callback(null, {'disposition':'STOP_RULE'})
+    callback(null, {'disposition':'STOP_RULE'})
+  } else {
+    for (var index in sesNotification.mail.headers) {
+      var header = sesNotification.mail.headers[index]
+      if (header.name === 'From') {
+        if (/\@mozilla\.com>?\s*$/.test(header.value)) {
+          processMail(sesNotification, callback)
+        } else {
+          console.log('Email not from @mozilla.com address')
+          callback(null, {'disposition':'STOP_RULE'})
+        }
       }
     }
   }
