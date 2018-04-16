@@ -35,7 +35,9 @@ module.exports = class Newsletter {
         if (err) reject(err)
 
         var $ = cheerio.load(mail.html)
-        var link = $('a[href^="http://mailchi.mp/"]').attr('href').replace(/\?e\=.*/, '')
+        var href = $('a[href^="https://mailchi.mp/"]').attr('href')
+        if (!href) href = $('a[href^="http://mailchi.mp/"]').attr('href')
+        var link = href.replace(/\?e\=.*/, '')
 
         this.from_link(link).then((title, markdown) => {
           resolve(this)
