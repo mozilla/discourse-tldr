@@ -9,7 +9,10 @@ exports.handler = (event, context, callback) => {
   var sesNotification = event.Records[0].ses
   console.log('SES Notification:\n', JSON.stringify(sesNotification, null, 2))
 
-  if (sesNotification.receipt.virusVerdict.status === 'FAIL') {
+  if (sesNotification.receipt.virusVerdict.status === 'FAIL'
+  ||  sesNotification.receipt.spfVerdict.status === 'FAIL'
+  ||  sesNotification.receipt.dkimVerdict.status === 'FAIL'
+  ||  sesNotification.receipt.dmarcVerdict.status === 'FAIL') {
     console.log('Dropping spam')
     callback(null, {'disposition':'STOP_RULE'})
   } else {
