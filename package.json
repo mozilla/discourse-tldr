@@ -18,9 +18,11 @@
   "homepage": "https://github.com/mozilla/discourse-tldr#readme",
   "dependencies": {
     "cheerio": "^1.0.0-rc.2",
-    "commander": "^2.14.1",
     "mailparser": "^2.2.0",
-    "request": "^2.83.0",
-    "turndown": "^4.0.1"
+    "request": "^2.87.0",
+    "turndown": "^4.0.2"
+  },
+  "devDependencies": {
+    "commander": "^2.14.1"
   }
 }
