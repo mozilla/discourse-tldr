@@ -1,6 +1,6 @@
 {
   "name": "discourse-tldr",
-  "version": "0.0.1",
+  "version": "5.0.0",
   "description": "Scripts to fetch the tl;dr newsletter and post it to Discourse.",
   "main": "post_newsletter",
   "scripts": {
