@@ -44,13 +44,18 @@ function processMail (sesNotification, callback) {
       new Newsletter().from_mail(data.Body).then(self => {
         console.log('Posting: ' + self.title)
         data = {
-          api_key: process.env.DISCOURSE_TLDR_API_KEY,
-          api_username: process.env.DISCOURSE_TLDR_API_USERNAME,
           title: self.title,
           raw: self.markdown,
           category: process.env.DISCOURSE_TLDR_CATEGORY
         }
-        request.post(process.env.DISCOURSE_TLDR_URL + '/posts', { form: data }, (err, res, body) => {
+        request.post({
+          url: process.env.DISCOURSE_TLDR_URL + '/posts',
+          form: data,
+          headers: {
+            'Api-Key': process.env.DISCOURSE_TLDR_API_KEY,
+            'Api-Username': process.env.DISCOURSE_TLDR_API_USERNAME,
+          }
+        }, (err, res, body) => {
           if (res.statusCode != 200) {
             console.log('Posting to Discourse failed: ' + body)
             callback(body)

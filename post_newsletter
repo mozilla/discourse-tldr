@@ -12,12 +12,11 @@ program
   .option('--date [value]', 'Date of newsletter')
   .option('--output', 'Print newsletter to output, rather than posting to Discourse')
   .option('--input [path]', 'Use content from file')
+  .option('--discourse [url]', 'Base url of discourse instance, e.g. https://discourse.mozilla.org/')
   .parse(process.argv)
 
 new Newsletter().from_link(program.link).then(self => {
   data = {
-    api_key: program.key,
-    api_username: 'tldr',
     title: self.title,
     raw: self.markdown,
     category: 253
@@ -37,7 +36,14 @@ new Newsletter().from_link(program.link).then(self => {
 })
 
 function post_to_discourse (data) {
-  request.post('https://discourse.mozilla.org/posts', { form: data }, (err, res, body) => {
+  request.post({
+    url: `${program.discourse}posts`,
+    form: data,
+    headers: {
+      'Api-Key': program.key,
+      'Api-Username': 'tldr',
+    }
+  }, (err, res, body) => {
     if (res.statusCode != 200) throw body
   })
 }
