@@ -20,6 +20,8 @@ module.exports = class Newsletter {
         $('html').replaceWith($('tbody'))
         $('tbody').remove(':nth-child(-n+4)')
         $('tbody').remove(':last-child')
+        $('[title]').attr("title", (_, currentVal) => currentVal.replace(/"|'|`/g, "&apos;"))
+        $('a img').parent().after('<p></p')
 
         var turndownService = new TurndownService()
         this.markdown = turndownService.turndown($.html())
