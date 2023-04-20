@@ -20,7 +20,7 @@
     "cheerio": "^1.0.0-rc.2",
     "mailparser": "^2.2.0",
     "request": "^2.87.0",
-    "turndown": "^5.0.3"
+    "turndown": "^7.1.2"
   },
   "devDependencies": {
     "commander": "^2.14.1"
